@@ -20,6 +20,8 @@ media
 # C extensions
 *.so
 
+trash.html
+
 # Distribution / packaging
 .Python
 build/
