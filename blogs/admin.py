@@ -10,6 +10,16 @@ class BlogAdmin(admin.ModelAdmin):
     search_fields = ('title', 'category__category_name', 'status')
     list_editable = ('is_featured', 'status')
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser or request.user.groups.filter(name='Editor').exists():
+            return qs
+        return qs.filter(author=request.user)
+
+    def save_model(self, request, obj, form, change):
+        if change == False:
+            obj.author = request.user
+        super().save_model(request, obj, form, change)
 
 # Register your models here.
 admin.site.register(Category, CategoryAdmin)

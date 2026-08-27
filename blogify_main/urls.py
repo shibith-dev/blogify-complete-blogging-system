@@ -25,10 +25,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('category/', include('blogs.urls')),
-    path('blogs/<slug:slug>/', blogViews.post_by_slug, name='post_by_slug'),
     path('blogs/search/', blogViews.search, name='search'),
+    path('blogs/<slug:slug>/', blogViews.post_by_slug, name='post_by_slug'),
     # Authentication
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
+    # Dashboard
+    path('dashboard/', include('dashboards.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
