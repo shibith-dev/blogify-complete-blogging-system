@@ -12,7 +12,7 @@ class BlogAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser or request.user.groups.filter(name='Editor').exists():
+        if request.user.is_superuser or request.user.groups.filter(name='Editor').exists() or request.user.groups.filter(name='Manager').exists():
             return qs
         return qs.filter(author=request.user)
 
