@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Category, Blog
+from .models import Category, Blog, Comment
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -16,8 +17,18 @@ def posts_by_category(request, cat_name):
 
 def post_by_slug(request, slug):
     post = get_object_or_404(Blog, slug=slug)
+    if request.method == 'POST':
+        comment = Comment()
+        comment.user = request.user
+        comment.blog = post
+        comment.comment = request.POST.get('comment')
+        comment.save()
+        return redirect(request.path)
+    comments = Comment.objects.filter(blog=post)
     context = {
-        'post': post
+        'post': post,
+        'comments': comments,
+        "comment_count": len(comments)
     }
     return render(request, 'blog.html', context)
 
