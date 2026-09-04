@@ -10,60 +10,162 @@
     <title>Blogify</title>
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <link href="{% static 'css/blog.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link href="{% static 'css/blog.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
 </head>
 
 <body>
-    <div class="container">
-        <header class="blog-header py-3">
-            <div class="row flex-nowrap justify-content-between align-items-center">
-                <!-- Logo -->
-                <div class="col-4 pt-1">
-                    <a class="blog-header-logo text-dark" href="/">Blogify</a>
+    <!-- Header -->
+    <header>
+        <nav class="navbar navbar-expand-lg topbar py-3">
+            <div class="container-fluid px-3 px-lg-4">
+                <a href="{% url 'home' %}" class="brand" style="text-decoration: none; color: #1e2a42;">Blogify</a>
+
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <div class="search ms-lg-auto mt-3 mt-lg-0">
+                        <form class="input-group" action="{% url 'search' %}">
+                            <span class="input-group-text search-icon"><i class="bi bi-search"></i></span>
+                            <input type="search" class="form-control search-input" placeholder="Enter search term..."
+                                name="base_search" value="{{ base_search }}">
+                        </form>
+                    </div>
+
+                    <div class="mobile-divider d-lg-none"></div>
+
+                    <ul class="navbar-nav account-nav ms-lg-3">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'dashboard' %}" class="nav-link-custom">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'logout' %}" class="login">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'login' %}" class="login">Login</a>
+                        </li>
+                        {% endif %}
+                    </ul>
                 </div>
-                <!-- Search Bar -->
-                <div class="col-4">
-                    <form action="{% url 'search' %}" method="GET">
-                        <div class="input-group">
-                            <input class="form-control" type="text" name="keyword" value="{{ keyword }}" placeholder="Enter search term..." />
-                            <button type="submit" class="btn btn-warning" id="button-search" style="margin-left: 3px;">Go!</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- Authentication -->
-                {% if user.is_authenticated %}
-                <span>
-                    <a href="{% url 'dashboard' %}">Dashboard</a> &emsp;
-                    <a href="{% url 'logout' %}">Logout</a>
-                </span>
-                {% else %}
-                <div class="col-4 d-flex justify-content-end align-items-center">
-                    <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a> &nbsp;
-                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'register' %}">Register</a>
-                </div>
-                {% endif %}
             </div>
-        </header>
+        </nav>
 
-        <div class="nav-scroller py-1 mb-2">
-            <nav class="nav d-flex justify-content-between">
-                {% for category in categories %}
-                <a class="p-2 text-muted"
-                    href="{% url 'posts_by_category' category.category_name %}">{{category.category_name}}</a>
-                {% endfor %}
-            </nav>
+        <nav class="category-bar">
+            <div class="container-fluid px-3 px-lg-4">
+                <div class="category-row">
+                    <div class="category-scroll" id="categoryScroll">
+                        <a href="{% url 'home' %}"
+                            class="category-link {% if request.path == '/' %} active {%endif%}">Home</a>
+                        {% for cat in categories %}
+                        {% url 'posts_by_category' cat_name=cat as category_url %}
+                        <a href="{% url 'posts_by_category' cat_name=cat %}"
+                            class="category-link {% if category_url == request.path %} active {% endif %}">{{cat}}</a>
+                        {% endfor %}
+                    </div>
+
+                    <button type="button" class="scroll-arrow border-0 bg-transparent" id="categoryArrow"
+                        aria-label="More categories">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!--------- Main Content ------------->
+    {% block content %}
+
+
+    {% endblock %}
+    <!-------------- Footer --------------->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">Blogify</div>
+                <p class="footer-text">&copy; 2026 Blogify. All rights reserved.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links <span class="mobile-footer-toggle">+</span></h4>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="{% url 'all_posts' %}">All Posts</a></li>
+                    <li><a href="{% url 'all_featured_posts' %}">Featured Posts</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Popular Categories <span class="mobile-footer-toggle">+</span></h4>
+                <ul class="footer-links">
+                    {% for cat in categories %}
+                    {% if forloop.counter < 6 %}
+                    <li><a href="{% url 'posts_by_category' cat.category_name %}">{{cat.category_name}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div> 
+
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p class="footer-text" style="margin-bottom: 16px;">Subscribe to our newsletter for the latest updates
+                    and articles.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email...">
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
         </div>
-        <!--------- Main Content ------------->
-        {% block content %}
-
-
-        {% endblock %}
-        <!-------------- Footer --------------->
-    </div>
-    <footer class="blog-footer">
-        <p>Django Blog App Built by Shibith</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const categoryScroll = document.getElementById("categoryScroll");
+        const categoryArrow = document.getElementById("categoryArrow");
+
+        categoryArrow.addEventListener("click", () => {
+            categoryScroll.scrollBy({
+                left: 180,
+                behavior: "smooth"
+            });
+        });
+    </script>
+    <script>
+        function confirmDelete(blogId, item) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You won't be able to revert this ${item}!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                background: '#ffffff',
+                customClass: {
+                    popup: 'rounded-5', // Custom styling class if needed
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submits the specific Django form
+                    document.getElementById('delete-form-' + blogId).submit();
+                }
+            })
+        }
+    </script>
+
 </body>
 
 </html>

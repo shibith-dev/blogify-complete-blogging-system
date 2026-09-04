@@ -1,51 +1,177 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row">
-    <!-- left -->
-    {% include 'dashboard/sidebar.html' %}
+<!-- Dashboard Layout Wrapper -->
+<div class="dashboard-layout">
 
-    <!-- right -->
-    <div class="col-md-9">
-        <h4>All users</h4>
-        <a href="{% url 'dashboard_add_user' %}" class="btn btn-dark text-light float-right mb-2">Add Post</a>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">email</th>
-                    <th scope="col">Active</th>
-                    <th scope="col">Staff</th>
-                    <th scope="col">Superuser</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in users %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{i.first_name}} {{i.last_name}}</td>
-                    <td>{{i.username}}</td>
-                    <td>{{i.email}}</td>
-                    <td>{% if i.is_active%}<i class="fa-solid fa-check text-success"></i>{%else%}<i class="fa-solid fa-xmark text-danger"></i>{%endif%}</td>
-                    <td>{% if i.is_staff%}<i class="fa-solid fa-check text-success"></i>{%else%}<i class="fa-solid fa-xmark text-danger"></i>{%endif%}</td>
-                    <td>{% if i.is_superuser%}<i class="fa-solid fa-check text-success"></i>{%else%}<i class="fa-solid fa-xmark text-danger"></i>{%endif%}</td>
-                    <td style="display: flex;">
-                        <a href="{% url 'dashboard_edit_user' id=i.id %}" style="margin-right: 5px;"><i class="fa-solid fa-pen-to-square text-success"></i></a>
-                        <form action="{% url 'dashboard_delete_user' id=i.id %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-link text-reset p-0" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa-solid fa-trash text-danger"></i></button>
-                        </form>
-                        <!-- <a href="{% url 'dashboard_delete_user' id=i.id %}" onclick="return confirm('Are you sure you want to delete this post?');"><i class="fa-solid fa-trash text-danger"></i></a> -->
-                    </td>
-                </tr>
+    <!-- Sidebar Navigation -->
+    {% include 'dashboard/sidebar.html'%}
+
+    <!-- Main Dashboard Content -->
+    <main class="dash-content">
+
+        <header class="dash-header-actions">
+            <div>
+                <h1 class="dash-title">All Users</h1>
+                <p class="dash-subtitle">Manage all registered users and their permissions.</p>
+            </div>
+            <a href="{% url 'dashboard_add_user' %}" class="btn btn-primary with-icon" style="text-decoration: none; color: white;" >
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                Add User
+            </a>
+        </header>
+
+        <div class="table-controls">
+            <form class="search-wrapper" action="{% url 'dashboard_users' %}">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" placeholder="Search users by username..." name="search" value="{{search}}">
+                {% for key, value in request.GET.items %}
+                    {% if key != 'search' %}
+                        <input type="hidden" name="{{key}}" value="{{value}}">
+                    {% endif %}
                 {% endfor %}
+                <button hidden type="submit"></button>
+            </form>
+            <form action="{% url 'dashboard_users' %}" id="filter-form">
+                {% for key, value in request.GET.items %}
+                {% if key != 'role' %}
+                    <input type="hidden" name="{{key}}" value="{{value}}">
+                {% endif %}
+                {% endfor %}
+                <select class="filter-select" name="role" onchange="document.getElementById('filter-form').submit();">
+                    <option value="">All Roles</option>
+                    <option value="superuser" {% if request.GET.role == 'superuser'%}selected{%endif%}>Superuser</option>
+                    <option value="Editor" {% if request.GET.role == 'Editor'%}selected{%endif%}>Editor</option>
+                    <option value="Author" {% if request.GET.role == 'Author'%}selected{%endif%}>Author</option>
+                    <option value="Manager" {% if request.GET.role == 'Manager'%}selected{%endif%}>Manager</option>
+                </select>
+            </form>
+        </div>
 
-            </tbody>
-        </table>
-    </div>
+        <div class="table-card">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th width="5%">#</th>
+                        <th width="20%">User</th>
+                        <th width="15%">Username</th>
+                        <th width="25%">Email</th>
+                        <th width="10%">Active</th>
+                        <th width="10%">Staff</th>
+                        <th width="10%">Superuser</th>
+                        <th width="5%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{users.start_index|add:forloop.counter0}}</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-info">
+                                    <span class="user-name">{{user.first_name}} {{user.last_name}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>
+                            <span
+                                class="status-indicator {% if user.is_active %}status-yes{% else %}status-no{%endif%}">
+                                <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                                    {% if user.is_active%}
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                    {% else %}
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12">
+                                    </path>
+                                    {% endif %}
+                                </svg>
+                                {% if user.is_active %} Yes {% else %} No {% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-indicator {% if user.is_staff %}status-yes{% else %}status-no{%endif%}">
+                                <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                                    {% if user.is_staff%}
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                    {% else %}
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12">
+                                    </path>
+                                    {% endif %}
+                                </svg>
+                                {% if user.is_staff %} Yes {% else %} No {% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <span
+                                class="status-indicator {% if user.is_superuser %}status-yes{% else %}status-no{%endif%}">
+                                <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                                    {% if user.is_superuser%}
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                    {% else %}
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12">
+                                    </path>
+                                    {% endif %}
+                                </svg>
+                                {% if user.is_superuser %} Yes {% else %} No {% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-btns" style="text-decoration: none;">
+                                <a class="btn-icon edit" title="Edit" href="{% url 'dashboard_edit_user' user.id %}">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                                        </path>
+                                    </svg>
+                                </a>
+                                <form action="{% url 'dashboard_delete_user' user.id %}" id="delete-form-{{user.id}}" method="POST">
+                                    {% csrf_token %}
+                                    <button onclick="confirmDelete('{{user.id}}', 'user and their posts')" class="btn-icon delete" title="Delete" type="button">
+                                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align: center;">No users found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
+            <div class="table-footer">
+                <span>Page {{users.number}} of {{users.paginator.num_pages}}</span>
+                <div class="table-pagination">
+                    {% if users.has_previous %}
+                    <a class="page-item" href="{% querystring page=users.previous_page_number %}">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    {% endif %}
+                    <button class="page-item active">{{users.number}}</button>
+                    {% if users.has_next %}
+                    <a class="page-item" href="{% querystring page=users.next_page_number %}">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
 {% endblock %}

@@ -10,12 +10,15 @@ urlpatterns = [
     path('categories/delete/<int:id>/', views.delete_category, name='dashboard_delete_category'),
     # Blog Posts
     path('posts/', views.posts, name="dashboard_posts"),
-    path('posts/add/', views.add_posts, name="dashboard_add_post"),
+    path('posts/add/', views.add_post, name="dashboard_add_post"),
     path('posts/edit/<int:id>/', views.edit_post, name="dashboard_edit_post"),
     path('posts/delete/<int:id>/', views.delete_post, name="dashboard_delete_post"),
     # Users
     path('users/', views.users, name='dashboard_users'),
     path('users/add/', views.add_user, name="dashboard_add_user"),
     path('users/edit/<int:id>/', views.edit_user, name="dashboard_edit_user"),
-    path('users/delete/<int:id>', views.delete_user, name="dashboard_delete_user")
+    path('users/delete/<int:id>', views.delete_user, name="dashboard_delete_user"),
+    # Comments
+    path('comments/', views.comments, name="dashboard_comments"),
+    path('comments/delete/<id>', views.delete_comment, name='dashboard_delete_comment')
 ]

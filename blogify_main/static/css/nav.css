@@ -1,0 +1,264 @@
+:root {
+    --bg: #fff;
+    --text: #1e2a42;
+    --muted: #6b7686;
+    --border: #e5e8ee;
+    --accent: #2f6fed;
+    --accent-hover: #1f5adb;
+    --search: #f4f6f9;
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, sans-serif;
+}
+
+a {
+    text-decoration: none
+}
+
+.topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    color: var(--text);
+    font-family: "Playfair Display", serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+
+.brand:hover {
+    color: var(--accent)
+}
+
+.search {
+    width: 100%;
+    max-width: 420px;
+}
+
+.search .input-group {
+    background: var(--search);
+    border: 1px solid var(--border);
+    border-radius: 50rem;
+    overflow: hidden;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.search .input-group:focus-within {
+    background: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 .2rem rgba(47, 111, 237, .12);
+}
+
+.search-icon {
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    padding-left: 1rem;
+}
+
+.search-input {
+    background: transparent;
+    border: 0;
+    box-shadow: none !important;
+    color: var(--text);
+    padding: .6rem 1rem .6rem .25rem;
+    font-size: .95rem;
+}
+
+.search-input::placeholder {
+    color: var(--muted)
+}
+
+.account-nav {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.nav-link-custom {
+    display: block;
+    color: var(--text);
+    font-size: .95rem;
+    font-weight: 500;
+    padding: .55rem .8rem;
+    border-radius: .45rem;
+    white-space: nowrap;
+    transition: color .2s ease, background .2s ease;
+}
+
+.nav-link-custom:hover {
+    color: var(--accent);
+    background: rgba(47, 111, 237, .07);
+    text-decoration: none;
+}
+
+.login {
+    display: block;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 600;
+    padding: .55rem 1.25rem;
+    border-radius: .45rem;
+    white-space: nowrap;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.login:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar-toggler {
+    border: 1px solid var(--border);
+    padding: .45rem .65rem;
+    box-shadow: none !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 .2rem rgba(47, 111, 237, .12) !important;
+}
+
+.navbar-toggler-icon {
+    width: 1.35em;
+    height: 1.35em;
+}
+
+/* NOTE: removed the old ".navbar-collapse { transition: height .35s ease; }"
+           rule that used to live here. Bootstrap's collapse plugin already applies
+           its own height transition via the temporary ".collapsing" class, so a
+           second permanent transition on ".navbar-collapse" itself was redundant. */
+
+/* Bootstrap automatically disables the collapse's height transition when
+           the browser/OS reports "prefers-reduced-motion: reduce" (an
+           accessibility setting). That's what was causing the instant snap with
+           no visible animation at all. This override forces the transition back
+           on so open/close always animates smoothly, regardless of that setting. */
+.navbar-collapse.collapsing {
+    transition: height .35s ease !important;
+}
+
+.category-bar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+}
+
+.category-row {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.category-scroll {
+    display: flex;
+    align-items: stretch;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+.category-scroll::-webkit-scrollbar {
+    display: none
+}
+
+.category-link {
+    flex: 0 0 auto;
+    color: var(--text);
+    font-size: .95rem;
+    font-weight: 500;
+    padding: 1rem .9rem;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color .2s ease, border-color .2s ease;
+}
+
+.category-link:hover,
+.category-link.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+.scroll-arrow {
+    flex: 0 0 auto;
+    padding: .75rem 1rem;
+    border-left: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    transition: color .2s ease, background .2s ease;
+}
+
+.scroll-arrow:hover {
+    color: var(--accent);
+    background: rgba(47, 111, 237, .04);
+}
+
+.mobile-divider {
+    border-top: 1px solid var(--border);
+    margin: .75rem 0;
+}
+
+@media(max-width:991.98px) {
+    .topbar .navbar-collapse {
+        padding-top: 1rem;
+    }
+
+    .search {
+        max-width: none;
+    }
+
+    .account-nav {
+        flex-direction: row;
+        align-items: center;
+        gap: .5rem;
+        margin-top: .75rem;
+        padding-bottom: .5rem;
+    }
+
+    .account-nav .nav-item {
+        flex: 1 1 0;
+    }
+
+    .account-nav .nav-link-custom,
+    .account-nav .login {
+        width: 100%;
+        text-align: center;
+    }
+
+    .mobile-divider {
+        display: block;
+    }
+}
+
+@media(max-width:575.98px) {
+    .brand {
+        font-size: 1.55rem;
+    }
+
+    .category-link {
+        padding: .9rem .75rem;
+        font-size: .9rem;
+    }
+
+    .scroll-arrow {
+        padding: .7rem .85rem;
+    }
+}

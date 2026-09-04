@@ -2,85 +2,110 @@
 
 {% block content %}
 
-{% for post in featured_posts %}
-{% if forloop.first %}
-<!-- Featured Posts Banner -->
-<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark"
-  style="background-image: url({{post.featured_image.url}});background-blend-mode: overlay;background-size:cover;">
-  <div class="col-md-8 px-0">
-    <h1 class="display-4 font-italic">{{post.title}}</h1>
-    <p class="lead my-3">{{post.short_description | truncatewords:15}}</p>
-    <p class="lead mb-0"><a href="{% url 'post_by_slug' slug=post.slug %}" class="text-white font-weight-bold">Continue
-        reading...</a></p>
-  </div>
-</div>
-{% endif %}
-{% endfor %}
+<div class="wrap">
 
-<!-- Featured Posts -->
-<h3 class="text-uppercase text-warning" style="letter-spacing: 2px;">Featured Posts</h3>
-
-<div class="row mb-2">
+  <!-- Featured Posts Banner -->
   {% for post in featured_posts %}
-  {% if not forloop.first %}
-  <div class="col-md-6">
-    <div class="card border-0">
-      <div class="card-body">
-        <a href="{% url 'post_by_slug' slug=post.slug %}" class="text-dark">
-          <h3>{{post.title}}</h3>
-        </a>
-        <small class="mb-1 text-muted">{{post.created_at | timesince}} ago | {{post.author}}</small>
-        <p class="card-text">{{post.short_description | truncatewords:15}}</p>
+  {% if forloop.first %}
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <span class="hero-label">FEATURED</span>
+        <h1 class="hero-title serif-heading">{{post.title | truncatewords:10}}</h1>
+        <p class="hero-desc">{{post.short_description | truncatewords:15}}</p>
+        <a href="{% url 'post_by_slug' slug=post.slug %}" class="btn btn-primary">Read More &rarr;</a>
+        <div class="carousel-dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="{{post.featured_image.url}}" alt="Featured Article">
       </div>
     </div>
-  </div>
+  </section>
   {% endif %}
   {% endfor %}
-</div>
 
-
-<!-- Recent Posts -->
-<h3 class="text-uppercase text-warning" style="letter-spacing: 2px;">Recent Posts</h3>
-<main role="main" class="container p-0">
-  <div class="row">
-    <div class="col-md-8 blog-main">
-      {% for post in posts %}
-      <div class="card border-0">
-        <div class="card-body">
-          <a href="{% url 'post_by_slug' slug=post.slug %}" class="text-dark">
-            <h3>{{post.title}}</h3>
-          </a>
-          <small class="mb-1 text-muted">{{post.created_at | timesince}} ago | {{post.author}}</small>
-          <p class="card-text">{{post.short_description | truncatewords:20}}</p>
-        </div>
+  <!-- Featured Posts -->
+  <section class="latest-articles">
+    <div class="container">
+      <div class="section-title">
+        <h2 class="serif-heading">Featured Articles</h2>
+        <a href="{% url 'all_featured_posts' %}" class="view-all">View all posts &rarr;</a>
       </div>
-      {% endfor %}
+      <div class="article-grid">
+        <!-- Card 1 -->
+        {% for post in featured_posts %}
+        {% if not forloop.first %}
+        <a href="{% url 'post_by_slug' post.slug %}" style="text-decoration: none;">
+          <article class="card">
+            <img src="{{ post.featured_image.url }}" alt="img" class="card-img">
+            <div class="card-body">
+              <span class="card-category">{{post.category}}</span>
+              <h3 class="card-title serif-heading">{{post.title | truncatewords:10}}</h3>
+              <p class="card-excerpt">{{post.short_description | truncatewords:10}}</p>
+              <div class="card-meta">
+                <div>{{post.created_at | timesince}} ago</div>
+                <div>by {{post.author}}</div>
+              </div>
+            </div>
+          </article>
+        </a>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Recent Posts -->
+  <section class="container content-split">
+    <!-- Left: Recent Posts -->
+    <div class="recent-posts-col">
+      <div class="section-title">
+        <h2 class="serif-heading">Recent Posts</h2>
+      </div>
+      <div class="recent-list">
+        <!-- Post -->
+        {% for post in posts %}
+        <a href="{% url 'post_by_slug' post.slug %}" style="text-decoration: none;">
+          <article class="recent-item">
+            <img src="{{post.featured_image.url}}" alt="Recent" class="recent-img">
+            <div class="recent-content">
+              <h4 class="recent-title serif-heading">{{post.title | truncatewords:10}}</h4>
+              <p class="recent-desc">{{post.short_description | truncatewords:10}}</p>
+              <div class="card-meta"><span>{{post.created_at | timesince}}</span> • <span>{{post.author}}</span></div>
+            </div>
+            <div class="arrow-icon">&rang;</div>
+          </article>
+        </a>
+        {% endfor %}
+      </div>
+      <div style="margin-top: 24px;">
+        <a href="{% url 'all_posts' %}" class="view-all">View all posts &rarr;</a>
+      </div>
     </div>
 
-    <!-- Side Bar -->
-    <aside class="col-md-4 blog-sidebar">
-      {% if about %}
-      <div class="p-3 mb-3 bg-light rounded">
-        <h4 class="font-italic">{{about.heading}}</h4>
-        <p class="mb-0">{{about.description}}</p>
+    <!-- Right: Sidebar -->
+    <aside class="sidebar-col">
+      <!-- About Widget -->
+      <div class="widget">
+        <h3 class="widget-title serif-heading">{{about.heading}}</h3>
+        <p class="text-sm text-muted">{{about.description}}</p>
       </div>
-      {% endif %}
 
-      <div class="p-3">
-        {% if social_links %}
-        <h4 class="font-italic">Follow Us</h4>
-        <div class="card-body">
-        <ol class="list-unstyled">
-          {% for link in social_links %}
-          <li><a href="{{link.link}}" target="_blank">{{link.platform}}</a></li>
+      <!-- Follow Us Widget -->
+      <div class="widget">
+        <h3 class="widget-title serif-heading">Follow Us</h3>
+        <div class="social-icons">
+          {% for platform in social_links %}
+          <a href="{{platform.link}}" class="social-icon">{{platform.platform}}</a>
           {% endfor %}
-        </ol>
         </div>
-        {% endif %}
       </div>
-
-  </div>
-
-</main>
-
+    </aside>
+  </section>
+</div>
 {% endblock %}

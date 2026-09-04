@@ -2,107 +2,143 @@
 
 {% block content %}
 
-<!-- Page content-->
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-8">
-            <!-- Post content-->
-            <article>
-                <header class="mb-4">
-                    <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
-                    <!-- Post meta content-->
-                    <div class="text-muted fst-italic mb-2">Posted on {{ post.created_at }} by {{ post.author }}</div>
-                    <!-- Post category-->
-                    <a class="badge bg-warning text-decoration-none text-light" href="#!">{{ post.category }}</a>
-                </header>
-                <!-- Preview image figure-->
-                <figure class="mb-4"><img class="img-fluid rounded" src="{{ post.featured_image.url }}" alt="..." />
-                </figure>
-                <!-- Post content-->
-                <section class="mb-5">
-                    <p class="fs-5 mb-4">{{ post.short_description }}</p>
-                    <p class="fs-5 mb-4">{{ post.blog_body }}</p>
+<!-- Page Content -->
+<!-- Main Content Area (Place between header and footer) -->
+<main class="container content-split">
 
-                    <!-- Comments -->
-                    <h4>Comments ({{ comment_count }})</h4>
-                    {% if comments %}
-                    {% for comment in comments %}
-                    <div class="card mt-1">
-                        <div class="card-body">
-                            <p class="card-text mb-0">{{ comment }}</p>
-                            <span>
-                                <small>By {{ comment.user }}</small>
-                                <small>| {{ comment.created_at | timesince }} ago</small>
-                            </span>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% else %}
-                    No comments yet.
-                    {% endif %}
-                    <br>
-                    <div class="form-group">
-                        {% if user.is_authenticated %}
-                        <form action="" method="POST">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <textarea name="comment" class="form-control"
-                                    placeholder="Write your comment" required></textarea>
-                                <input type="submit" value="Submit" class="btn btn-primary mt-2">
-                            </div>
+    <!-- Left: Article Content -->
+    <article class="post-content">
 
-                        </form>
-                        {% else %}
-                        <p>Please <span><a href="{% url 'login' %}">login</a></span> to write a comment!</p>
-                        {% endif %}
-                    </div>
+        <!-- Article Header -->
+        <header>
+            <span class="post-category">{{post.category}}</span>
+            <h1 class="post-title serif-heading">{{post.title}}</h1>
 
-                    <!-- Side widget-->
-                    {% if social_links %}
-                    <div class="card mb-4 p-3">
-                        <h4 class="font-italic">Follow Us</h4>
-                        <ol class="list-unstyled">
-                            {% for i in social_links %}
-                            <li><a href="{{ i.link }}" target="_blank">{{ i.platform }}</a></li>
-                            {% endfor %}
-                        </ol>
-                    </div>
-                    {% endif %}
-                </section>
-            </article>
-        </div>
-        <!-- Side widgets-->
-        <div class="col-lg-4">
-
-            <!-- Categories widget-->
-            <div class="card mb-4 p-3">
-                <h4 class="font-italic">Categories</h4>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                {% for cat in categories %}
-                                <li><a href="{% url 'posts_by_category' cat.category_name %}">{{ cat.category_name}}</a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
+            <div class="post-meta">
+                <div class="post-meta-item">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    {{post.created_at}}
+                </div>
+                <div class="post-meta-item">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    5 min read
+                </div>
+                <div class="post-meta-item">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    {{post.author}}
                 </div>
             </div>
-            <div class="card mb-4 p-3">
-                {% if social_links %}
-                <h4 class="font-italic">Follow Us</h4>
-                <div class="card-body">
-                    <ol class="list-unstyled">
-                        {% for link in social_links %}
-                        <li><a href="{{link.link}}" target="_blank">{{link.platform}}</a></li>
-                        {% endfor %}
-                    </ol>
+        </header>
+
+        <!-- Hero Image -->
+        <img src="{{post.featured_image.url}}" alt="Profit and profiteroles" class="post-hero-img">
+
+        <!-- Article Body -->
+         <div class="post-body">
+            {{post.short_description}}
+        </div>
+        <br>
+        <div class="post-body">
+            {{post.blog_body}}
+        </div>
+
+        <!-- Share -->
+        <div class="share-section"></div>
+
+        <!-- Comments Display -->
+        <section class="comments-section">
+            <h3 class="comments-header serif-heading">Comments ({{comment_count}})</h3>
+            <div class="comments-container">
+                <!-- Comment 3 -->
+                 {% if comments %}
+                 {% for comment in comments %}
+                <div class="comment-item">
+                    <div class="comment-content">
+                        <div class="comment-top">
+                            <span class="comment-name">{{comment.user}}</span>
+                            <span class="comment-time">{{comment.created_at | timesince}}</span>
+                        </div>
+                        <p class="comment-text">{{comment.comment}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="comment-item">
+                    <div class="comment-content">
+                        <p class="comment-text">No comments yet.</p>
+                    </div>
                 </div>
                 {% endif %}
             </div>
+
+            <!-- Comment Form -->
+            <h3 class="comments-header serif-heading" style="margin-bottom: 8px;">Leave a Comment</h3>
+            {% if user.is_authenticated %}
+            <form class="comment-form" action="" method="POST">
+                {% csrf_token %}
+                <textarea class="form-control" placeholder="Write your comment..." name="comment"></textarea>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+            {% else %}
+            <p>Please <span><a href="{% url 'login' %}" style="color: rgb(57, 57, 245);">login</a></span> to write a comment!</p>
+            {% endif %}
+        </section>
+
+    </article>
+
+    <!-- Right: Sidebar -->
+    <aside class="sidebar-col">
+
+        <!-- Categories Widget -->
+        <div class="widget">
+            <h3 class="widget-header-title serif-heading">
+                <div class="widget-icon">📁</div>
+                Categories
+            </h3>
+            <div class="cat-list">
+                {% for cat in categories %}
+                <a href="{% url 'posts_by_category' cat %}" class="cat-item" style="text-decoration: none; transition: .2s ease;">
+                    <span>{{cat}}</span>
+                </a>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-</div>
+
+        <!-- Related Posts Widget (Reuses recent-list classes) -->
+        <div class="widget">
+            <h3 class="widget-header-title serif-heading">
+                <div class="widget-icon">🔥</div>
+                Related Posts
+            </h3>
+            <div class="recent-list" style="gap: 16px;">
+                <!-- Related 1 -->
+                 {% for post in related_posts %}
+                <a href="{% url 'post_by_slug' slug=post.slug %}" style="text-decoration: none; transition: .2s ease;">
+                <article class="recent-item" style="padding: 0; border: none;">
+                    <img src="{{post.featured_image.url}}" alt="Climate" class="recent-img" style="width: 70px; height: 50px;">
+                    <div class="recent-content">
+                        <h4 class="recent-title" style="font-size: 0.9rem; margin-bottom: 2px;">{{post.title}}</h4>
+                        <div class="card-meta" style="font-size: 0.75rem;">{{post.created_at}}</div>
+                    </div>
+                </article>
+                </a>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 20px;">
+                <a href="{% url 'posts_by_category' post.category %}" class="view-all">View all posts &rarr;</a>
+            </div>
+        </div>
+    </aside>
+
+</main>
 {% endblock %}

@@ -27,6 +27,8 @@ urlpatterns = [
     path('category/', include('blogs.urls')),
     path('blogs/search/', blogViews.search, name='search'),
     path('blogs/<slug:slug>/', blogViews.post_by_slug, name='post_by_slug'),
+    path('posts/', blogViews.all_posts, name="all_posts"),
+    path('featured/', blogViews.all_featured_posts, name="all_featured_posts"),
     # Authentication
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),

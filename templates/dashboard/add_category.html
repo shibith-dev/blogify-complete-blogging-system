@@ -5,8 +5,8 @@
 <div class="row">
     {% include 'dashboard/sidebar.html' %}
 
-    <div class="col-md-9">
-        <h2>Add New Category</h2>
+    <div class="col-md-9 dashboard-form-area">
+        <h3>Add New Category</h3>
         <form action="{% url 'dashboard_add_category' %}" method="POST" style="width: 500px;">
             {% csrf_token %}
             {{ form | crispy }}

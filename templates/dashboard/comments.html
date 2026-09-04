@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Dashboard Layout Wrapper -->
+<div class="dashboard-layout">
+
+    <!-- Sidebar Navigation -->
+    {% include 'dashboard/sidebar.html'%}
+
+    <!-- Main Dashboard Content -->
+    <main class="dash-content">
+
+        <header class="dash-header-actions">
+            <div>
+                <h1 class="dash-title">All Comments</h1>
+                <p class="dash-subtitle">Stay connected with your community and manage discussions.</p>
+            </div>
+        </header>
+
+        <div class="table-controls">
+            <form class="search-wrapper" action="{% url 'dashboard_comments' %}">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" placeholder="Search by comment or post title..." name="search" value="{{search}}">
+                <button type="submit" hidden></button>
+            </form>
+        </div>
+
+        <div class="table-card">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th width="5%">#</th>
+                        <th width="20%">Comment</th>
+                        <th width="15%">Commented by</th>
+                        <th width="25%">Post</th>
+                        <th width="25%">Created At</th>
+                        <th width="5%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in comments %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-info">
+                                    <span class="user-name">{{comment.comment}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{comment.user}}</td>
+                        <td>{{comment.blog}}</td>
+                        <td>{{comment.created_at}}</td>
+                        <td>
+                            <div class="action-btns" style="text-decoration: none;">    
+                                <form action="{% url 'dashboard_delete_comment' comment.id %}" id="delete-form-{{comment.id}}" method="POST">
+                                    {% csrf_token %}
+                                    <button onclick="confirmDelete('{{comment.id}}', 'comment')" class="btn-icon delete" title="Delete" type="button">
+                                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align: center;">No comments found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-footer">
+                <span>Showing {{comments.start_index}} to {{comments.end_index}} of {{comments.paginator.count}} comments</span>
+                <div class="table-pagination">
+                    {% if comments.has_previous %}
+                    <a class="page-item" href="{% querystring page=comments.previous_page_number %}">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    {% endif %}
+                    <button class="page-item active">{{comments.number}}</button>
+                    {% if comments.has_next %}
+                    <a class="page-item" href="{% querystring page=comments.next_page_number %}">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+{% endblock %}

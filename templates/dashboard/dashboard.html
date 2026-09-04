@@ -1,37 +1,304 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- Dashboard Layout Wrapper -->
+<div class="dashboard-layout">
 
-<div class="row">
-    <!-- Left sidebar -->
-    {% include 'dashboard/sidebar.html' %}
+    <!-- Sidebar Navigation -->
+    {% include 'dashboard/sidebar.html'%}
+    <!-- 
+    <aside class="sidebar">
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link active">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                    </path>
+                </svg>
+                Dashboard
+            </a>
+            <a href="#" class="sidebar-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                    </path>
+                </svg>
+                Users
+            </a>
+            <a href="#" class="sidebar-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                </svg>
+                Categories
+            </a>
+            <a href="#" class="sidebar-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                Posts
+            </a>
+            <a href="#" class="sidebar-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                    </path>
+                </svg>
+                Comments
+            </a>
+            <a href="#" class="sidebar-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                    </path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Settings
+            </a>
 
-    <!-- Right side content -->
-    <div class="col-md-9">
-        <div class="card border-default mb-3">
-            <div class="card-header text-right">You are logged in as <b>{{user}}</b></div>
-        </div>
-        <div class="row">
-            <!-- First Card Column -->
-            <div class="col-md-6">
-                <div class="card border-default mb-3">
-                    <div class="card-header text-center text-uppercase font-weight-bold">All Categories</div>
-                    <div class="card-body text-dark">
-                        <h5 class="card-title text-center">{{category_count}}</h5>
+            <hr class="sidebar-divider">
+
+            <a href="#" class="sidebar-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                    </path>
+                </svg>
+                Logout
+            </a>
+        </nav>
+    </aside>
+     -->
+
+    <!-- Main Dashboard Content -->
+    <main class="dash-content">
+
+        <!-- Header Section -->
+        <header class="dash-header">
+            <div>
+                <h1 class="dash-title">Welcome back, {{user}}!</h1>
+                <p class="dash-subtitle">Here's what's happening with your blog.</p>
+            </div>
+            <div class="dash-date">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                    </path>
+                </svg>
+                {% now "l, F d, Y" %}
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="dash-stats-grid">
+
+            <!-- Stat: Posts -->
+            <div class="dash-stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon icon-blue">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Posts</span>
+                        <span class="stat-number">{{post_count}}</span>
                     </div>
                 </div>
+                <a href="{% url 'dashboard_posts' %}" class="stat-link">
+                    View all posts
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
             </div>
-            <!-- Second Card Column -->
-            <div class="col-md-6">
-                <div class="card border-default mb-3">
-                    <div class="card-header text-center text-uppercase font-weight-bold">All Posts</div>
-                    <div class="card-body text-dark">
-                        <h5 class="card-title text-center">{{post_count}}</h5>
+
+            <!-- Stat: Categories -->
+            <div class="dash-stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon icon-green">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Categories</span>
+                        <span class="stat-number">{{category_count}}</span>
                     </div>
                 </div>
+                <a href="{% url 'dashboard_categories' %}" class="stat-link">
+                    View all categories
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
             </div>
+
+            <!-- Stat: Comments -->
+            <div class="dash-stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon icon-purple">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Comments</span>
+                        <span class="stat-number">{{comments_count}}</span>
+                    </div>
+                </div>
+                <a href="{% url 'dashboard_comments' %}" class="stat-link">
+                    View comments
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Stat: Users -->
+            {% if perms.auth.view_user %}
+            <div class="dash-stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon icon-orange">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Users</span>
+                        <span class="stat-number">{{users_count}}</span>
+                    </div>
+                </div>
+                <a href="{% url 'dashboard_users' %}" class="stat-link">
+                    View all users
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
+            </div>
+            {% endif %}
+
         </div>
-    </div>
+
+        <!-- Main Grids (Recent Posts & Quick Actions) -->
+        <div class="dash-main-grid">
+
+            <!-- Left: Recent Posts List -->
+            <div class="dash-panel">
+                <div class="dash-panel-header">
+                    <h2 class="dash-panel-title">Recent Posts</h2>
+                    <a href="{% url 'dashboard_posts' %}" class="view-all" style="font-size: 0.9rem;">View all posts</a>
+                </div>
+                <div class="dash-list">
+
+                    {% for post in recent_posts %}
+                    <a href="{% url 'dashboard_edit_post' post.id %}" style="text-decoration: none; transition: .2s ease; margin-bottom: 20px;">
+                    <div class="dash-list-item">
+                        <img src="{{post.featured_image.url}}" alt="Climate" class="dash-item-img">
+                        <div class="dash-item-content">
+                            <h4 class="dash-item-title">{{post.title}}</h4>
+                            <span class="dash-item-meta">{{post.created_at | timesince}} • {{post.category}}</span>
+                        </div>
+                        <span class="status-badge badge-published">{{post.status}}</span>
+                    </div>
+                    </a>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- Right: Quick Actions -->
+            <div class="dash-panel">
+                <div class="dash-panel-header">
+                    <h2 class="dash-panel-title">Quick Actions</h2>
+                </div>
+                <div class="action-list">
+                    <a href="{% url 'dashboard_add_post' %}" style="text-decoration: none; transition: .2s ease;">
+                        <div class="action-card">
+                            <div class="stat-icon icon-blue" style="width: 40px; height: 40px;">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="action-content">
+                                <h4>Create New Post</h4>
+                                <p>Write and publish a new article</p>
+                            </div>
+                        </div>
+                    </a>
+                    {% if perms.blog.change_category %}
+                    <a href="{% url 'dashboard_add_category' %}" style="text-decoration: none; transition: .2s ease;">
+                        <div class="action-card">
+                            <div class="stat-icon icon-green" style="width: 40px; height: 40px;">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="action-content">
+                                <h4>Add New Category</h4>
+                                <p>Create a new category</p>
+                            </div>
+                        </div>
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'dashboard_posts' %}" style="text-decoration: none; transition: .2s ease;">
+                        <div class="action-card">
+                            <div class="stat-icon icon-purple" style="width: 40px; height: 40px;">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="action-content">
+                                <h4>Manage Posts</h4>
+                                <p>View, edit or delete posts</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="{% url 'dashboard_comments' %}" style="text-decoration: none; transition: .2s ease;">
+                        <div class="action-card">
+                            <div class="stat-icon icon-orange" style="width: 40px; height: 40px;">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="action-content">
+                                <h4>Manage Comments</h4>
+                                <p>Review and manage comments</p>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
 </div>
-
 {% endblock %}
+
